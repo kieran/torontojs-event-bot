@@ -91,7 +91,7 @@ class Event
         type: "plain_text"
         text: "Learn More"
         emoji: true
-      value: @url
+      url: @url
 
 
   @load_feeds: ->

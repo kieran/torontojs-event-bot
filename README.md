@@ -2,6 +2,8 @@
 
 It posts events to the TorontoJS slack `#events` channel
 
+![example](https://user-images.githubusercontent.com/3444/69776881-fce10680-116b-11ea-8d8b-f7d1597231b8.png)
+
 ## Local dev
 ```
 # setup
@@ -13,9 +15,9 @@ npm run dev
 ```
 
 ## Endpoints
-get `/week` to post this weeks events
+get `/week` to post this week's events
 
-get `/today` to post todays events
+get `/today` to post today's events
 
 ## Deploy to lambda via [up](https://apex.sh/docs/up)
 ```

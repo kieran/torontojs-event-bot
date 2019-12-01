@@ -19,19 +19,40 @@ Event   = require './event'
 #
 # Routes
 #
-router.get '/ping', (ctx)->
-  ctx.body = 'pong'
+router.get '/', (ctx)->
+  ctx.body = """
+  Usage:
+    GET   /
+      this message (🍁 free health check 🇨🇦)
 
-router.get '/week', (ctx)->
+    GET   /week
+      display slack payload for the week
+
+    POST  /week
+      post this week's events to slack
+
+    GET   /today
+      display slack payload for today
+
+    POST  /today
+      post today's events to slack
+  """
+
+router.get  '/week', week = (ctx)->
   events = await Event.this_week()
   ctx.assert events?.length, 404, 'No events this week'
-  await post_to_slack ctx.body = slack_payload events, "Events this week"
+  ctx.body = slack_payload events, "Events this week"
 
-router.get '/today', (ctx)->
+router.post '/week', (ctx)->
+  await post_to_slack await week ctx
+
+router.get  '/today', today = (ctx)->
   events = await Event.today()
   ctx.assert events?.length, 404, 'No events today'
-  await post_to_slack ctx.body = slack_payload events, "Events today"
+  ctx.body = slack_payload events, "Events today"
 
+router.post '/today', (ctx)->
+  await post_to_slack await today ctx
 
 #
 # Server init

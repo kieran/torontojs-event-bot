@@ -77,7 +77,7 @@ app.listen PORT or 3000
 #
 slack_payload = (events, title)->
   channel:  SLACK_CHANNEL or "#events"
-  username: "EventBot™"
+  username: "TorontoJS EventBot™"
   blocks:   slack_blocks events, title
 
 slack_blocks = (events, title)->

@@ -40,7 +40,7 @@ router.get '/', (ctx)->
 
 router.get  '/week', week = (ctx)->
   events = await Event.this_week()
-  ctx.assert events?.length, 404, 'No events this week'
+  ctx.assert events.length, 204, 'No events this week'
   ctx.body = slack_payload events, "Events this week"
 
 router.post '/week', (ctx)->
@@ -48,7 +48,7 @@ router.post '/week', (ctx)->
 
 router.get  '/today', today = (ctx)->
   events = await Event.today()
-  ctx.assert events?.length, 404, 'No events today'
+  ctx.assert events.length, 204, 'No events today'
   ctx.body = slack_payload events, "Events today"
 
 router.post '/today', (ctx)->

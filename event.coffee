@@ -13,26 +13,32 @@ axios = require 'axios'
 URL_REGEX = /(https?:\/\/[\w-/.]*)/
 GCAL_KEY = "AIzaSyA-xW0xIfYvro-zD0JCLRfJwqs6s2MmKmU"
 GCAL_IDS = [
-  "tgh4uc5t6uhr4icjrcgqfhe18r2uu3fg@import.calendar.google.com"
-  "11j5qfhbb916srru7kuae99i4rn3p8r5@import.calendar.google.com"
-  "89aheia1si29mqt1kvuprggnid983m87@import.calendar.google.com"
-  "sv5rg9q32cg6qhabdgi33fjur45vcilh@import.calendar.google.com"
-  "3drnie5h5b5mr73acgcqpvvc2k@group.calendar.google.com"
-  "torontojs.com_o83mhhuck726m114hgkk3hl79g@group.calendar.google.com"
-  "59s1qmiqr7bo98uqkek5ba7er2eduk3t@import.calendar.google.com"
-  "k6l8oiu416ftcjpjetn0r7a79me8pq4r@import.calendar.google.com"
-  "h1tmhrt7ruckpk3ad20jaq55amvaiubu@import.calendar.google.com"
-  "7i14k13k6h3a9opbokgmj63k1074gd78@import.calendar.google.com"
-  "cmm8uhv8s34d21711h5faa4e3a34napd@import.calendar.google.com"
-  "3usg04moak5e7qejj73mu9u05p2r3rer@import.calendar.google.com"
+  "tgh4uc5t6uhr4icjrcgqfhe18r2uu3fg@import.calendar.google.com"         # angular
+  "11j5qfhbb916srru7kuae99i4rn3p8r5@import.calendar.google.com"         # ember
+  "89aheia1si29mqt1kvuprggnid983m87@import.calendar.google.com"         # htmlTO
+  "sv5rg9q32cg6qhabdgi33fjur45vcilh@import.calendar.google.com"         # meteor
+  "3drnie5h5b5mr73acgcqpvvc2k@group.calendar.google.com"                # nodeschool
+  "torontojs.com_o83mhhuck726m114hgkk3hl79g@group.calendar.google.com"  # one-off events
+  "59s1qmiqr7bo98uqkek5ba7er2eduk3t@import.calendar.google.com"         # react
+  "k6l8oiu416ftcjpjetn0r7a79me8pq4r@import.calendar.google.com"         # torontojs
+  "h1tmhrt7ruckpk3ad20jaq55amvaiubu@import.calendar.google.com"         # webperf
+  "1sdm6dini4ii2rvgqcmincg48h34v82l@import.calendar.google.com"         # webgl
+  "32clmdbdnjukvbigjs6k174m44hhc7lu@import.calendar.google.com"         # vue
+  "r9dg86fs6utf6gv2dage634dts30ha14@import.calendar.google.com"         # polyhack
+  "qp59hmmpclktmd2ujqsunb6a8k4ferir@import.calendar.google.com"         # ?
+  "7i14k13k6h3a9opbokgmj63k1074gd78@import.calendar.google.com"         # ?
+  "cmm8uhv8s34d21711h5faa4e3a34napd@import.calendar.google.com"         # ?
+  "3usg04moak5e7qejj73mu9u05p2r3rer@import.calendar.google.com"         # ?
 ]
 
-Function::getter = (prop, get) ->
-  Object.defineProperty @prototype, prop, {get, configurable: yes}
+class Model
+  @getter: (prop, get) ->
+    Object.defineProperty @prototype, prop, {get, configurable: yes}
 
 module.exports =
-class Event
+class Event extends Model
   constructor: (obj={})->
+    super arguments...
     @[key] = val for key, val of obj
     @
 

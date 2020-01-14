@@ -1,15 +1,14 @@
 {
-  PORT
-  SLACK_WEBHOOK
-  SLACK_CHANNEL
+  PORT          = 3000
+  SLACK_WEBHOOK = 'https://slack.com/api/api.test'
+  SLACK_CHANNEL = '#events'
+  NODE_ENV      = 'development'
   SENTRY_DSN_API
-  NODE_ENV
 } = process.env
-environment = NODE_ENV ?= 'development'
 
 axios   = require 'axios'
 Koa     = require 'koa'
-router  = require('koa-router')()
+router  = do require 'koa-router'
 json    = require 'koa-json'
 cors    = require '@koa/cors'
 Sentry  = require '@sentry/node'
@@ -41,7 +40,7 @@ router.get '/', (ctx)->
 router.get  '/week', week = (ctx)->
   events = await Event.this_week()
   ctx.assert events.length, 204, 'No events this week'
-  ctx.body = slack_payload events, "Events this week"
+  ctx.body = slack_payload events, 'Events this week'
 
 router.post '/week', (ctx)->
   await post_to_slack await week ctx
@@ -49,7 +48,7 @@ router.post '/week', (ctx)->
 router.get  '/today', today = (ctx)->
   events = await Event.today()
   ctx.assert events.length, 204, 'No events today'
-  ctx.body = slack_payload events, "Events today"
+  ctx.body = slack_payload events, 'Events today'
 
 router.post '/today', (ctx)->
   await post_to_slack await today ctx
@@ -63,37 +62,35 @@ app.use json()
 app.use router.routes()
 
 if dsn = SENTRY_DSN_API
-  Sentry.init { dsn, environment }
+  Sentry.init { dsn, environment: NODE_ENV }
   app.on 'error', (err, ctx)->
     Sentry.withScope (scope)->
       scope.addEventProcessor (event)-> Sentry.Handlers.parseRequest event, ctx.request
       Sentry.captureException err
 
-app.listen PORT or 3000
+app.listen PORT
 
 
 #
 # Helpers
 #
 slack_payload = (events, title)->
-  channel:  SLACK_CHANNEL or "#events"
-  username: "TorontoJS EventBot™"
+  channel:  SLACK_CHANNEL
+  username: 'TorontoJS EventBot™'
   blocks:   slack_blocks events, title
 
 slack_blocks = (events, title)->
   blocks = [
-    type: "section"
+    type: 'section'
     text:
-      type: "mrkdwn"
+      type: 'mrkdwn'
       text: "*#{title}*"
   ]
 
   for evt, idx in events
-    blocks.push type: "divider" if idx
+    blocks.push type: 'divider' if idx
     blocks.push evt.slack_section
   blocks
 
 post_to_slack = (payload)->
-  axios.post \
-    SLACK_WEBHOOK or 'https://slack.com/api/api.test', \
-    payload
+  axios.post SLACK_WEBHOOK, payload

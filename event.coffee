@@ -19,6 +19,7 @@ GCAL_IDS = [
   'sv5rg9q32cg6qhabdgi33fjur45vcilh@import.calendar.google.com'         # meteor
   '3drnie5h5b5mr73acgcqpvvc2k@group.calendar.google.com'                # nodeschool
   'torontojs.com_o83mhhuck726m114hgkk3hl79g@group.calendar.google.com'  # one-off events
+  'torontojs.com_60bdi1crj6so3s0a5angstepso@group.calendar.google.com'  # Toronto Affiliates - Managed by Simon Stern
   'r9dg86fs6utf6gv2dage634dts30ha14@import.calendar.google.com'         # polyhack
   '59s1qmiqr7bo98uqkek5ba7er2eduk3t@import.calendar.google.com'         # react
   'k6l8oiu416ftcjpjetn0r7a79me8pq4r@import.calendar.google.com'         # torontojs

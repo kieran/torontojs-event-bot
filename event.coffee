@@ -8,6 +8,7 @@ axios = require 'axios'
 
 {
   sortBy
+  compact
 } = require 'underscore'
 
 URL_REGEX = /(https?:\/\/[\w-/.]*)/
@@ -53,7 +54,7 @@ class Event extends Model
     @location.match(/\((.*)\)/)?[1]
 
   @getter 'map_url', ->
-    "https://www.google.com/maps/search/?api=1&query=#{@address.replace /\s+/g, '+'}"
+    "https://www.google.com/maps/search/?api=1&query=#{@address.replace /\s+/g, '+'}" if @address
 
   @getter 'host', ->
     @organizer.displayName.replace 'Events - ', ''
@@ -79,19 +80,27 @@ class Event extends Model
   @getter 'is_today', ->
     @is_future and isBefore @starts_at, addDays Date.now(), 1
 
+  @getter 'slack_what', ->
+    """
+      *#{@summary}*
+      by #{@host}
+    """
+
+  @getter 'slack_when', ->
+    "<!date^#{@starts_at_stamp}^{date_pretty} at {time}|#{@starts_at}>"
+
+  @getter 'slack_where', ->
+    "<#{@map_url}|#{@venue}>" if @map_url
+
+  @getter 'slack_description', ->
+    compact([@slack_what, @slack_when, @slack_where]).join "\n\n"
+
   # https://api.slack.com/tools/block-kit-builder
   @getter 'slack_section', ->
     type: 'section'
     text:
       type: 'mrkdwn'
-      text: """
-        *#{@summary}*
-        by #{@host}
-
-        <!date^#{@starts_at_stamp}^{date_pretty} at {time}|#{@starts_at}>
-
-        <#{@map_url}|#{@venue}>
-      """
+      text: @slack_description
     accessory:
       type: 'button'
       text:

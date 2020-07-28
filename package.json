@@ -11,15 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@koa/cors": "^3.0.0",
-    "@sentry/node": "^5.11.0",
-    "axios": "^0.19.1",
-    "coffeescript": "^2.5.0",
-    "date-fns": "^2.9.0",
-    "koa": "^2.11.0",
+    "@koa/cors": "^3.1.0",
+    "@sentry/node": "^5.20.1",
+    "axios": "^0.19.2",
+    "coffeescript": "^2.5.1",
+    "date-fns": "^2.15.0",
+    "koa": "^2.13.0",
     "koa-json": "^2.0.2",
     "koa-router": "^7.4.0",
-    "nodemon": "^2.0.2",
-    "underscore": "^1.9.2"
+    "nodemon": "^2.0.4",
+    "underscore": "^1.10.2"
   }
 }

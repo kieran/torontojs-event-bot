@@ -48,10 +48,10 @@ class Event extends Model
     @description.match(URL_REGEX)?[1]
 
   @getter 'venue', ->
-    @location.match(/(.*)\s\(/)?[1]
+    @location?.match(/(.*)\s\(/)?[1]
 
   @getter 'address', ->
-    @location.match(/\((.*)\)/)?[1]
+    @location?.match(/\((.*)\)/)?[1]
 
   @getter 'map_url', ->
     "https://www.google.com/maps/search/?api=1&query=#{@address.replace /\s+/g, '+'}" if @address

@@ -1,7 +1,10 @@
 {
   "name": "torontojs-event-bot",
-  "profile": "kieran",
+  "profile": "default",
   "regions": [
     "us-east-1"
-  ]
+  ],
+  "lambda": {
+    "runtime": "nodejs14.x"
+  }
 }

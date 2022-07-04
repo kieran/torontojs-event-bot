@@ -32,7 +32,6 @@ GCAL_IDS = [
   'cmm8uhv8s34d21711h5faa4e3a34napd@import.calendar.google.com'         # ?
   '3usg04moak5e7qejj73mu9u05p2r3rer@import.calendar.google.com'         # ?
   'ftabe5ssvic0sdmqv048i6294k@group.calendar.google.com'                # north gta
-
 ]
 
 class Model

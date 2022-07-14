@@ -42,13 +42,13 @@ class Event extends Model
     @
 
   @getter 'url', ->
-    @description.match(URL_REGEX)?[1]
+    @description?.match(URL_REGEX)?[1]
 
   @getter 'venue', ->
-    @location?.match(/(.*)\s\(/)?[1]
+    @location?.match(/(.*)\s\(/)?[1] or @location
 
   @getter 'address', ->
-    @location?.match(/\((.*)\)/)?[1]
+    @location?.match(/\((.*)\)/)?[1] or @location
 
   @getter 'map_url', ->
     "https://www.google.com/maps/search/?api=1&query=#{@address.replace /\s+/g, '+'}" if @address
@@ -94,18 +94,20 @@ class Event extends Model
 
   # https://api.slack.com/tools/block-kit-builder
   @getter 'slack_section', ->
-    type: 'section'
-    text:
-      type: 'mrkdwn'
-      text: @slack_description
-    accessory:
-      type: 'button'
+    ret =
+      type: 'section'
       text:
-        type: 'plain_text'
-        text: 'Learn More'
-        emoji: true
-      url: @url
-
+        type: 'mrkdwn'
+        text: @slack_description
+    if @url
+      ret.accessory =
+        type: 'button'
+        text:
+          type: 'plain_text'
+          text: 'Learn More'
+          emoji: true
+        url: @url
+    ret
 
   @load_feeds: ->
     Promise.all GCAL_IDS.map (id)->

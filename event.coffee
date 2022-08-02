@@ -28,7 +28,7 @@ GCAL_IDS = [
   '7i14k13k6h3a9opbokgmj63k1074gd78@import.calendar.google.com'         # DevTO
   'cmm8uhv8s34d21711h5faa4e3a34napd@import.calendar.google.com'         # Toronto Elixir
   'ftabe5ssvic0sdmqv048i6294k@group.calendar.google.com'                # north gta
-  'pqn3frde4ici6rc4ati3qopg78%40group.calendar.google.com'              # Andrew's virtual coffee chats
+  'pqn3frde4ici6rc4ati3qopg78@group.calendar.google.com'              # Andrew's virtual coffee chats
 ]
 
 class Model

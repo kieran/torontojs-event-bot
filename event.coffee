@@ -88,6 +88,7 @@ class Event extends Model
     "<!date^#{@starts_at_stamp}^{date_pretty} at {time}|#{@starts_at}>"
 
   @getter 'slack_where', ->
+    return "<#{@location}>" if URL_REGEX.test(@location)
     "<#{@map_url}|#{@venue}>" if @map_url
 
   @getter 'slack_description', ->

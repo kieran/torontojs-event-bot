@@ -88,7 +88,14 @@ class Event extends Model
     "<!date^#{@starts_at_stamp}^{date_pretty} at {time}|#{@starts_at}>"
 
   @getter 'slack_where', ->
-    "<#{@map_url}|#{@venue}>" if @map_url
+    # does it look like a URL?
+    return "<#{@location}>" if URL_REGEX.test @location
+
+    # does it look like an address? (is there a number?)
+    return "<#{@map_url}|#{@venue}>" if /\d/.test @location
+
+    # I'm out of ideas, just print the text
+    @location
 
   @getter 'slack_description', ->
     compact([@slack_what, @slack_when, @slack_where]).join "\n\n"

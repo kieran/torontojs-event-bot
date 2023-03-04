@@ -19,7 +19,13 @@ event_with_address = {
   location: "1 Blue Jays Way"
 }
 
+event_with_unclear_location = {
+  base_event...
+  location: "Online Event"
+}
+
 module.exports = {
   event_with_url
   event_with_address
+  event_with_unclear_location
 }

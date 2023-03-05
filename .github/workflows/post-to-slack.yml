@@ -1,0 +1,41 @@
+name: 'Post to slack'
+
+on:
+  schedule:
+    # 8am (EST) == 1pm (UTC)
+    - cron:  '0 13 * * *'
+    # 8pm Sunday (EST) == 1am Monday (UTC)
+    - cron:  '0 1 * * 1'
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+
+      - name: 'Today'
+        if: github.event.schedule == '0 13 * * *'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: '#events'
+        run: |
+          npm install
+          npx coffee github-action.coffee today
+
+      - name: 'This week'
+        if: github.event.schedule == '0 1 * * 1'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: '#events'
+        run: |
+          npm install
+          npx coffee github-action.coffee week
+
+      - name: 'ALl events TEST'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: '#events'
+        run: |
+          npm install
+          npx coffee github-action.coffee all

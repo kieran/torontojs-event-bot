@@ -1,7 +1,5 @@
 {
   PORT          = 3000
-  SLACK_WEBHOOK = 'https://slack.com/api/api.test'
-  SLACK_CHANNEL = '#events'
   NODE_ENV      = 'development'
   SENTRY_DSN_API
 } = process.env
@@ -12,8 +10,16 @@ router  = do require 'koa-router'
 json    = require 'koa-json'
 cors    = require '@koa/cors'
 Sentry  = require '@sentry/node'
-Event   = require './event'
 
+{
+  this_week
+  today
+} = require './event'
+
+{
+  slack_payload
+  post_to_slack
+} = require './slack'
 
 #
 # Routes
@@ -38,16 +44,16 @@ router.get '/', (ctx)->
   """
 
 router.get  '/week', week = (ctx)->
-  events = await Event.this_week()
-  ctx.assert events.length, 204, 'No events this week'
+  events = await this_week()
+  ctx.assert events.length, 404, 'No events this week'
   ctx.body = slack_payload events, 'Events this week'
 
 router.post '/week', (ctx)->
   await post_to_slack await week ctx
 
 router.get  '/today', today = (ctx)->
-  events = await Event.today()
-  ctx.assert events.length, 204, 'No events today'
+  events = await today()
+  ctx.assert events.length, 404, 'No events today'
   ctx.body = slack_payload events, 'Events today'
 
 router.post '/today', (ctx)->
@@ -69,28 +75,3 @@ if dsn = SENTRY_DSN_API
       Sentry.captureException err
 
 app.listen PORT
-
-
-#
-# Helpers
-#
-slack_payload = (events, title)->
-  channel:  SLACK_CHANNEL
-  username: 'TorontoJS EventBot™'
-  blocks:   slack_blocks events, title
-
-slack_blocks = (events, title)->
-  blocks = [
-    type: 'section'
-    text:
-      type: 'mrkdwn'
-      text: "*#{title}*"
-  ]
-
-  for evt, idx in events
-    blocks.push type: 'divider' if idx
-    blocks.push evt.slack_section
-  blocks
-
-post_to_slack = (payload)->
-  axios.post SLACK_WEBHOOK, payload

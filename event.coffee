@@ -100,23 +100,6 @@ class Event extends Model
   @getter 'slack_description', ->
     compact([@slack_what, @slack_when, @slack_where]).join "\n\n"
 
-  # https://api.slack.com/tools/block-kit-builder
-  @getter 'slack_section', ->
-    ret =
-      type: 'section'
-      text:
-        type: 'mrkdwn'
-        text: @slack_description
-    if @url
-      ret.accessory =
-        type: 'button'
-        text:
-          type: 'plain_text'
-          text: 'Learn More'
-          emoji: true
-        url: @url
-    ret
-
   @load_feeds: ->
     Promise.all GCAL_IDS.map (id)->
       try
@@ -125,7 +108,7 @@ class Event extends Model
         Promise.resolve()
 
   @all: ->
-    events = (await @load_feeds())
+    events = (await Event.load_feeds())
     .map (feed)-> feed?.data?.items or []
     .reduce (arr=[], items)->
       arr.push new Event item for item in items

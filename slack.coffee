@@ -17,7 +17,7 @@ slack_section = (evt)->
     type: 'section'
     text:
       type: 'mrkdwn'
-      text: evt.description
+      text: evt.slack_description
   if evt.url
     ret.accessory =
       type: 'button'

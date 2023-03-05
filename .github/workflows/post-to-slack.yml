@@ -6,8 +6,6 @@ on:
     - cron:  '0 13 * * *'
     # 8pm Sunday (EST) == 1am Monday (UTC)
     - cron:  '0 1 * * 1'
-    # TEST
-    - cron:  '*/5 * * * *'
 
 jobs:
   post:
@@ -33,11 +31,3 @@ jobs:
         run: |
           npm install
           npx coffee github-action.coffee week
-
-      - name: 'ALl events TEST'
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: '#events'
-        run: |
-          npm install
-          npx coffee github-action.coffee all

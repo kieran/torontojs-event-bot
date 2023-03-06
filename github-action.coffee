@@ -14,8 +14,8 @@ do ->
     when 'week'
       events = await this_week()
       return unless events.length
-      await post_to_slack slack_payload events, 'Events this week'
+      await post_to_slack slack_payload events, 'Events this week (via gh actions)'
     when 'today'
       events = await today()
       return unless events.length
-      await post_to_slack slack_payload events, 'Events today'
+      await post_to_slack slack_payload events, 'Events today (via gh actions)'

@@ -4,7 +4,6 @@
   SENTRY_DSN_API
 } = process.env
 
-axios   = require 'axios'
 Koa     = require 'koa'
 router  = do require 'koa-router'
 json    = require 'koa-json'

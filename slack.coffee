@@ -3,6 +3,8 @@
   SLACK_CHANNEL = '#events'
 } = process.env
 
+axios = require 'axios'
+
 #
 # Helpers
 #

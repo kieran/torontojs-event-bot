@@ -44,6 +44,7 @@ slack_blocks = (events, title)->
   blocks
 
 post_to_slack = (payload)->
+  console.log "posting to Slack", "URL length: #{SLACK_WEBHOOK.length}", "Payload: #{payload}"
   axios.post SLACK_WEBHOOK, payload
 
 module.exports = {

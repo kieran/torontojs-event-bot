@@ -2,10 +2,10 @@ name: 'Post to slack'
 
 on:
   schedule:
-    # 8am (EST) == 1pm (UTC)
-    - cron:  '0 13 * * *'
-    # 8pm Sunday (EST) == 1am Monday (UTC)
-    - cron:  '0 1 * * 1'
+    # 8am (EST) == 1pm (UTC) - minus one min to beat the rush of GH actions jobs, minus 1h for DST
+    - cron:  '59 11 * * *'
+    # 8pm Sunday (EST) == 1am Monday (UTC) - minus one min to beat the rush of GH actions jobs, minus 1h for DST
+    - cron:  '59 23 * * 0'
 
 jobs:
   post:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 'Today'
-        if: github.event.schedule == '0 13 * * *'
+        if: github.event.schedule == '59 11 * * *'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: '#events'
@@ -24,7 +24,7 @@ jobs:
           npx coffee github-action.coffee today
 
       - name: 'This week'
-        if: github.event.schedule == '0 1 * * 1'
+        if: github.event.schedule == '59 23 * * 0'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: '#events'

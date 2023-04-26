@@ -15,9 +15,9 @@ do ->
       events = await this_week()
       console.log new Date, "#{events.length} events found"
       return unless events.length
-      await post_to_slack slack_payload events, 'Events this week (via gh actions)'
+      await post_to_slack slack_payload events, 'Events this week'
     when 'today'
       events = await today()
       console.log new Date, "#{events.length} events found"
       return unless events.length
-      await post_to_slack slack_payload events, 'Events today (via gh actions)'
+      await post_to_slack slack_payload events, 'Events today'

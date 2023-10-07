@@ -10,10 +10,7 @@ json    = require 'koa-json'
 cors    = require '@koa/cors'
 Sentry  = require '@sentry/node'
 
-{
-  this_week
-  today
-} = require './event'
+Event = require './event'
 
 {
   slack_payload
@@ -43,7 +40,7 @@ router.get '/', (ctx)->
   """
 
 router.get  '/week', week = (ctx)->
-  events = await this_week()
+  events = await Event.this_week()
   ctx.assert events.length, 404, 'No events this week'
   ctx.body = slack_payload events, 'Events this week'
 
@@ -51,12 +48,12 @@ router.post '/week', (ctx)->
   await post_to_slack await week ctx
 
 router.get  '/today', today = (ctx)->
-  events = await today()
+  events = await Event.today()
   ctx.assert events.length, 404, 'No events today'
   ctx.body = slack_payload events, 'Events today'
 
 router.post '/today', (ctx)->
-  await post_to_slack await today ctx
+  await post_to_slack await Event.today ctx
 
 #
 # Server init

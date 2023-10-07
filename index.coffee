@@ -53,7 +53,7 @@ router.get  '/today', today = (ctx)->
   ctx.body = slack_payload events, 'Events today'
 
 router.post '/today', (ctx)->
-  await post_to_slack await Event.today ctx
+  await post_to_slack await today ctx
 
 #
 # Server init

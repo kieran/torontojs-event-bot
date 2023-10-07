@@ -11,7 +11,7 @@ axios = require 'axios'
   compact
 } = require 'underscore'
 
-URL_REGEX = /\b(https?:\/\/\S+)\b/
+URL_REGEX = /(https?:\/\/[0-9a-zA-Z\+\&\?\:\=\.\/\-]+)/
 GCAL_KEY = 'AIzaSyA-xW0xIfYvro-zD0JCLRfJwqs6s2MmKmU'
 GCAL_IDS = [
   'tgh4uc5t6uhr4icjrcgqfhe18r2uu3fg@import.calendar.google.com'         # angular

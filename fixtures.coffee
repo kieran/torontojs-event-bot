@@ -24,8 +24,20 @@ event_with_unclear_location = {
   location: "Online Event"
 }
 
+event_with_a_tag_description = {
+  base_event...
+  description: '<a href="https://www.meetup.com/meetup-group-iqklclbh/events/296278058/">https://www.meetup.com/meetup-group-iqklclbh/events/296278058/</a>'
+}
+
+event_with_url_in_description = {
+  base_event...
+  description: 'For full details, including the address, and to RSVP see:\nhttp://www.meetup.com/ruby-lightning-to/events/226535947/\nRuby Lightning Talks T.O.\nCome join us for four lightning-style talks covering intermediate Ruby and Web topics, all in one night!\nFormat:\n6:30-7:00 - Pizza, pop, an...'
+}
+
 module.exports = {
   event_with_url
   event_with_address
   event_with_unclear_location
+  event_with_a_tag_description
+  event_with_url_in_description
 }

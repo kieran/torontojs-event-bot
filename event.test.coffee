@@ -28,7 +28,7 @@ describe 'Event', ->
     it 'should link a bare URL', ->
       assert.strictEqual \
         event(location: "https://google.com").slack_where,
-        "<https://zombo.com>"
+        "<https://google.com>"
 
     it 'should add a google search for an address', ->
       assert.strictEqual \

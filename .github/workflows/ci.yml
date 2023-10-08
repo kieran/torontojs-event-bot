@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Tests
 
 on: [push]
 
@@ -14,4 +14,6 @@ jobs:
         with:
           node-version: '20.x'
       - run: npm ci
-      - run: npm test
+      - run: node -e "require('coffeescript/register'); require('./event.test')" \
+        --test-reporter spec --test-reporter-destination stdout \
+        --test-reporter node-test-github-reporter --test-reporter-destination stdout

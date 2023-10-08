@@ -25,5 +25,8 @@
     "koa-router": "^7.4.0",
     "nodemon": "^2.0.4",
     "underscore": "^1.10.2"
+  },
+  "devDependencies": {
+    "node-test-github-reporter": "^1.1.5"
   }
 }

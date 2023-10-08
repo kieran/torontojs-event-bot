@@ -1,4 +1,8 @@
-test    = require 'node:test'
+{
+  describe
+  it
+  before
+} = require 'node:test'
 assert  = require "node:assert"
 Event   = require "./event"
 
@@ -16,27 +20,33 @@ event = (overrides={})->
 
   new Event { base..., overrides... }
 
-test 'online event', ->
-  assert.strictEqual \
-    event(location: "https://google.com").slack_where,
-    "<https://google.com>"
+describe 'Event', ->
 
-test 'in person event', ->
-  assert.strictEqual \
-    event(location: "1 Blue Jays Way").slack_where,
-    "<https://www.google.com/maps/search/?api=1&query=1+Blue+Jays+Way|1 Blue Jays Way>"
+  before console.clear
 
-test 'unclear event', ->
-  assert.strictEqual \
-    event(location: "Online Event").slack_where,
-    "Online Event"
+  describe '#slack_where', ->
+    it 'should link a bare URL', ->
+      assert.strictEqual \
+        event(location: "https://google.com").slack_where,
+        "<https://google.com>"
 
-test 'event atag', ->
-  assert.strictEqual \
-    event(description: '<a href="https://www.meetup.com/meetup-group-iqklclbh/events/296278058/">https://www.meetup.com/meetup-group-iqklclbh/events/296278058/</a>').url,
-    "https://www.meetup.com/meetup-group-iqklclbh/events/296278058/"
+    it 'should add a google search for an address', ->
+      assert.strictEqual \
+        event(location: "1 Blue Jays Way").slack_where,
+        "<https://www.google.com/maps/search/?api=1&query=1+Blue+Jays+Way|1 Blue Jays Way>"
 
-test 'event url', ->
-  assert.strictEqual \
-    event(description: 'For full details, including the address, and to RSVP see:\nhttp://www.meetup.com/ruby-lightning-to/events/226535947/\nRuby Lightning Talks T.O.\nCome join us for four lightning-style talks covering intermediate Ruby and Web topics, all in one night!\nFormat:\n6:30-7:00 - Pizza, pop, an...').url,
-    "http://www.meetup.com/ruby-lightning-to/events/226535947/"
+    it 'should pass through ambiguous text as plain text', ->
+      assert.strictEqual \
+        event(location: "Online Event").slack_where,
+        "Online Event"
+
+  describe '#url', ->
+    it 'should find the URL in an anchor tag', ->
+      assert.strictEqual \
+        event(description: '<a href="https://www.meetup.com/meetup-group-iqklclbh/events/296278058/">https://www.meetup.com/meetup-group-iqklclbh/events/296278058/</a>').url,
+        "https://www.meetup.com/meetup-group-iqklclbh/events/296278058/"
+
+    it 'should find a bare URL in some text / MD', ->
+      assert.strictEqual \
+        event(description: 'For full details, including the address, and to RSVP see:\nhttp://www.meetup.com/ruby-lightning-to/events/226535947/\nRuby Lightning Talks T.O.\nCome join us for four lightning-style talks covering intermediate Ruby and Web topics, all in one night!\nFormat:\n6:30-7:00 - Pizza, pop, an...').url,
+        "http://www.meetup.com/ruby-lightning-to/events/226535947/"

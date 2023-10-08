@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npx coffee index.coffee",
     "dev": "npx nodemon index.coffee",
-    "test": "node -r 'coffeescript/register' --test *.test.coffee",
-    "test:watch": "node -r 'coffeescript/register' --test --watch *.test.coffee"
+    "test": "node -r 'coffeescript/register' --test --test-reporter spec *.test.coffee",
+    "test:watch": "node -r 'coffeescript/register' --test --test-reporter spec --watch *.test.coffee"
   },
   "engines": {
     "node": ">=20"

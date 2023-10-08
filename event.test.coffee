@@ -1,49 +1,42 @@
-{
-  event_with_url
-  event_with_address
-  event_with_unclear_location
-  event_with_a_tag_description
-  event_with_url_in_description
-} = require "./fixtures"
-Event = require "./event"
-assert = require "assert"
+test    = require 'node:test'
+assert  = require "node:assert"
+Event   = require "./event"
 
-test_online_event = ->
-  test_event = new Event event_with_url
-  actual = test_event.slack_where
-  expected = "<https://google.com>"
-  assert.strictEqual actual, expected
+event = (overrides={})->
+  base =
+    kind:         "calendar#event"
+    etag:         '"3350678618282000"'
+    id:           "_clr6arjkbti66t3qc9q7ipj3cph7goi0dlimat3le0n66rrd"
+    status:       "confirmed"
+    htmlLink:     "https://www.google.com/calendar/event?eid=X2NscjZhcmprYnRpNjZ0M3FjOXE3aXBqM2NwaDdnb2kwZGxpbWF0M2xlMG42NnJyZCBrNmw4b2l1NDE2ZnRjanBqZXRuMHI3YTc5bWU4cHE0ckBp"
+    created:      "2023-02-02T12:01:48.000Z"
+    updated:      "2023-02-02T12:01:49.141Z"
+    summary:      "JS Code Club: Online - Group Programming"
+    description:  "Toronto JavaScript\nSaturday, March 18 at 4:00 PM\n\nWelcome to the TorontoJS Group Programming! TorontoJS Group Programming is a friendly coding environment where we can bounce ideas & ask questions fre...\n\nhttps://www.meetup.com/torontojs/events/291350726/"
 
-test_in_person_event = ->
-  test_event = new Event event_with_address
-  actual = test_event.slack_where
-  expected = "<https://www.google.com/maps/search/?api=1&query=1+Blue+Jays+Way|1 Blue Jays Way>"
-  assert.strictEqual actual, expected
+  new Event { base..., overrides... }
 
-test_unclear_event = ->
-  test_event = new Event event_with_unclear_location
-  actual = test_event.slack_where
-  expected = "Online Event"
-  assert.strictEqual actual, expected
+test 'online event', ->
+  assert.strictEqual \
+    event(location: "https://google.com").slack_where,
+    "<https://google.com>"
 
-test_event_atag = ->
-  test_event = new Event event_with_a_tag_description
-  actual = test_event.url
-  expected = "https://www.meetup.com/meetup-group-iqklclbh/events/296278058/"
-  assert.strictEqual actual, expected
+test 'in person event', ->
+  assert.strictEqual \
+    event(location: "1 Blue Jays Way").slack_where,
+    "<https://www.google.com/maps/search/?api=1&query=1+Blue+Jays+Way|1 Blue Jays Way>"
 
-test_event_url = ->
-  test_event = new Event event_with_url_in_description
-  actual = test_event.url
-  expected = "http://www.meetup.com/ruby-lightning-to/events/226535947/"
-  assert.strictEqual actual, expected
+test 'unclear event', ->
+  assert.strictEqual \
+    event(location: "Online Event").slack_where,
+    "Online Event"
 
-try
-  test_online_event()
-  test_in_person_event()
-  test_unclear_event()
-  test_event_url()
-  test_event_atag()
-catch e
-  console.error e
-  process.exit 1
+test 'event atag', ->
+  assert.strictEqual \
+    event(description: '<a href="https://www.meetup.com/meetup-group-iqklclbh/events/296278058/">https://www.meetup.com/meetup-group-iqklclbh/events/296278058/</a>').url,
+    "https://www.meetup.com/meetup-group-iqklclbh/events/296278058/"
+
+test 'event url', ->
+  assert.strictEqual \
+    event(description: 'For full details, including the address, and to RSVP see:\nhttp://www.meetup.com/ruby-lightning-to/events/226535947/\nRuby Lightning Talks T.O.\nCome join us for four lightning-style talks covering intermediate Ruby and Web topics, all in one night!\nFormat:\n6:30-7:00 - Pizza, pop, an...').url,
+    "http://www.meetup.com/ruby-lightning-to/events/226535947/"

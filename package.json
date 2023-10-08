@@ -9,7 +9,7 @@
     "test": "npx coffee event.test.coffee"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "author": "",
   "license": "ISC",

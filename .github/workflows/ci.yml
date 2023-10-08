@@ -20,5 +20,4 @@ jobs:
       - run: npm ci
       - run: >-
           node -e "require('coffeescript/register'); require('./event.test')"
-          --test-reporter spec --test-reporter-destination stdout
-          --test-reporter node-test-github-reporter --test-reporter-destination stdout
+          --test-reporter node-test-github-reporter

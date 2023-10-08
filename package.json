@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "npx coffee index.coffee",
     "dev": "npx nodemon index.coffee",

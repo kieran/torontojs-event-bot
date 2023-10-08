@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npx coffee index.coffee",
     "dev": "npx nodemon index.coffee",
-    "test": "npx coffee *.test.coffee",
-    "test:watch": "npx coffee -w *.test.coffee"
+    "test": "node -r 'coffeescript/register' --test --test-reporter spec *.test.coffee",
+    "test:watch": "node -r 'coffeescript/register' --test --test-reporter spec --watch *.test.coffee"
   },
   "engines": {
     "node": ">=20"
@@ -15,15 +15,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@koa/cors": "^3.1.0",
-    "@sentry/node": "^5.20.1",
-    "axios": "^0.21.1",
-    "coffeescript": "^2.5.1",
+    "@koa/cors": "^4.0.0",
+    "@sentry/node": "^7.73.0",
+    "axios": "^1.5.1",
+    "coffeescript": "^2.7.0",
     "date-fns": "^2.15.0",
     "koa": "^2.13.0",
     "koa-json": "^2.0.2",
-    "koa-router": "^7.4.0",
-    "nodemon": "^2.0.4",
+    "koa-router": "^12.0.0",
+    "nodemon": "^3.0.1",
     "underscore": "^1.10.2"
   }
 }

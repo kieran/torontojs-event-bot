@@ -1,4 +1,4 @@
-name: 'Post to slack'
+name: Post to slack
 
 on:
   schedule:
@@ -11,23 +11,30 @@ jobs:
   post:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout repository'
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: 'Today'
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Today
         if: github.event.schedule == '59 11 * * *'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: '#events'
         run: |
-          npm install
           npx coffee github-action.coffee today
 
-      - name: 'This week'
+      - name: This week
         if: github.event.schedule == '59 23 * * 0'
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: '#events'
         run: |
-          npm install
           npx coffee github-action.coffee week

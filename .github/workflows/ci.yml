@@ -18,6 +18,4 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
       - run: npm ci
-      - run: >-
-          node -e "require('coffeescript/register'); require('./event.test')"
-          --test-reporter node-test-github-reporter
+      - run: npm test

@@ -14,12 +14,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: .nvmrc
           cache: npm
-        run: npm i
+
+      - name: Install dependencies
+      - run: npm i
 
       - name: Today
         if: github.event.schedule == '59 11 * * *'

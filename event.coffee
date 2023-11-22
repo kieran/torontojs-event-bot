@@ -30,6 +30,7 @@ GCAL_IDS = [
   'ftabe5ssvic0sdmqv048i6294k@group.calendar.google.com'                # north gta
   'pqn3frde4ici6rc4ati3qopg78@group.calendar.google.com'                # Andrew's virtual coffee chats
   'c_55f8635eda110a7fbe428aa5f1f10ce10aec4c2095f9a7f32b8a97a4723c9d84@group.calendar.google.com' # Crafting and Code Coffee Chats
+  'c_70eb37807ed493286f4aa060cc08804d33f105ce956fb445d0bf5a37d5b78fb1@group.calendar.google.com' # TorontoJS Events - Managed by Dale
 ]
 
 class Model
